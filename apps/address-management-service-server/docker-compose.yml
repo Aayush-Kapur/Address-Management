@@ -29,7 +29,7 @@ services:
       db:
         condition: service_healthy
   db:
-    image: postgres:12
+    image: postgres:13
     ports:
       - ${DB_PORT}:5432
     environment:

@@ -1,17 +1,15 @@
-import * as dotenv from "dotenv";
 import { PrismaClient } from "@prisma/client";
-import { customSeed } from "./customSeed";
+import * as dotenv from "dotenv";
 import { Salt, parseSalt } from "../src/auth/password.service";
-import { hash } from "bcrypt";
 
 if (require.main === module) {
   dotenv.config();
 
-  seed().catch((error) => {
-    console.error(error);
-    process.exit(1);
-  });
-  const salt = parseSalt(BCRYPT_SALT);
+  // seed(salt).catch((error) => {
+  //   console.error(error);
+  //   process.exit(1);
+  // });
+  const salt = parseSalt(process.env.BCRYPT_SALT);
 
   seed(salt).catch((error) => {
     console.error(error);
@@ -24,7 +22,7 @@ async function seed(bcryptSalt: Salt) {
 
   const client = new PrismaClient();
 
-  const data = {
+  const data1 = {
     password: "admin",
     roles: ["user"],
     username: "admin",
@@ -32,11 +30,11 @@ async function seed(bcryptSalt: Salt) {
 
   await client.user.upsert({
     where: {
-      username: data.username,
+      username: data1.username,
     },
 
     update: {},
-    create: data,
+    create: data1,
   });
 
   const data = {
